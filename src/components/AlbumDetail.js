@@ -1,7 +1,18 @@
 import React from 'react';
-import { Text, Image, View } from 'react-native';
+import { Text, Image, View, Linking } from 'react-native';
 import Card from './Card';
 import CardSection from './CardSection';
+import Button from './Button';
+
+const onPress = url => {
+  Linking.canOpenURL(url).then(supported => {
+    if (supported) {
+      Linking.openURL(url);
+    } else {
+      console.log(`Don't know how to open URI: ${url}`);
+    }
+  });
+};
 
 const AlbumDetail = ({ album }) => (
   <Card>
@@ -21,7 +32,7 @@ const AlbumDetail = ({ album }) => (
       <Image style={styles.albumImageStyles} source={{ uri: album.image }} />
     </CardSection>
     <CardSection>
-      <Text>{album.url}</Text>
+      <Button onPress={onPress.bind(null, album.url)}>Buy now!</Button>
     </CardSection>
   </Card>
 );
